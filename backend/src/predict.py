@@ -43,10 +43,10 @@ def predict_mood(data):
     loudness = data['loudness']
     acousticness = data['acousticness']
     instrumentalness = data['instrumentalness']
+    valence = data['valence']   # ✅ FIX ADDED
 
-    energy_valence = energy * data['valence']
+    energy_valence = energy * valence
 
-    # Create feature array
     features = np.array([[
         tempo,
         danceability,
@@ -57,16 +57,12 @@ def predict_mood(data):
         energy_valence
     ]])
 
-    # Scale
     features = scaler.transform(features)
 
-    # Predict
     pred = model.predict(features)
     mood = encoder.inverse_transform(pred)[0]
 
-    # ---------------------------
-    # EXPLANATION (SMARTER)
-    # ---------------------------
+    # Explanation
     if energy > 0.7 and tempo > 120:
         reason = "High energy and fast tempo → energetic mood"
     elif valence > 0.6:
@@ -78,9 +74,6 @@ def predict_mood(data):
     else:
         reason = "Balanced musical features"
 
-    # ---------------------------
-    # RECOMMENDATION
-    # ---------------------------
     recommendations = {
         "Happy": "Pop / Party Playlist 🎉",
         "Sad": "Lo-fi / Chill Playlist 😔",
@@ -90,14 +83,8 @@ def predict_mood(data):
         "Neutral": "Mixed Mood Playlist 🎧"
     }
 
-    # ---------------------------
-    # PLAYLIST
-    # ---------------------------
     playlist = get_playlist(mood)
 
-    # ---------------------------
-    # RETURN RESPONSE
-    # ---------------------------
     return {
         "mood": mood,
         "reason": reason,
