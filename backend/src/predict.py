@@ -37,23 +37,24 @@ def get_playlist(mood):
 # ---------------------------
 def predict_mood(data):
 
-    # Extract ALL 10 features
     tempo = data['tempo']
     danceability = data['danceability']
     energy = data['energy']
-    key = data['key']
     loudness = data['loudness']
-    speechiness = data['speechiness']
     acousticness = data['acousticness']
     instrumentalness = data['instrumentalness']
-    liveness = data['liveness']
-    valence = data['valence']
+
+    energy_valence = energy * data['valence']
 
     # Create feature array
     features = np.array([[
-        tempo, danceability, energy, key, loudness,
-        speechiness, acousticness, instrumentalness,
-        liveness, valence
+        tempo,
+        danceability,
+        energy,
+        loudness,
+        acousticness,
+        instrumentalness,
+        energy_valence
     ]])
 
     # Scale
