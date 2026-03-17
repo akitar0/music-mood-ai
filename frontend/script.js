@@ -25,7 +25,7 @@ async function predictMood() {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/predict", {
+        const response = await fetch("https://music-mood-ai.onrender.com/predict", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
@@ -61,7 +61,7 @@ async function predictMood() {
 // ---------------------------
 async function loadClusters() {
     try {
-        const response = await fetch("http://127.0.0.1:5000/clusters");
+        const response = await fetch("https://music-mood-ai.onrender.com/clusters");
         const data = await response.json();
 
         const points = data.map(d => ({
